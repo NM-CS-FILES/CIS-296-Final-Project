@@ -1,0 +1,24 @@
+plugins {}
+
+subprojects {
+  apply plugin: 'java'
+
+  group = 'umd.cis296'
+  version = '1.0.0'
+  
+  tasks.register('copyJar', Copy) {
+    dependsOn tasks.named('jar')
+    from(tasks.named('jar').flatMap { it.archiveFile })
+    into("${rootProject.projectDir}/bin")
+  }
+
+  tasks.named('build') {
+    dependsOn 'copyJar'
+  }
+
+  repositories {
+    mavenCentral()
+  }
+}
+
+

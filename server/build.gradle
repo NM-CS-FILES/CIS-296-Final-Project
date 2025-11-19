@@ -1,0 +1,23 @@
+plugins {
+  id 'java'
+  id 'application'
+}
+
+group = 'umd.cis296'
+version = '1.0.0'
+
+application {
+  mainClass = 'umd.cis296.Server'
+}
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': application.mainClass
+    )
+  }
+}
+
+dependencies {
+  implementation project(':shared')
+}

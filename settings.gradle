@@ -1,0 +1,5 @@
+rootProject.name = "CIS-296-Final-Project"
+
+include 'server'
+include 'client'
+include 'shared'
