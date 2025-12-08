@@ -10,12 +10,6 @@ public class Client
     public static final int PORT = 5050;
 
     public static void main(String[] args) {
-        System.out.println("Starting client...");
-
-        try (Socket socket = new Socket(HOST, PORT)) {
-            System.out.println("Connected to server!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ClientGUI.launch(ClientGUI.class, args);
     }
 }

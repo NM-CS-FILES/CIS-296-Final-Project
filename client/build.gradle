@@ -2,6 +2,7 @@ plugins {
   id 'java'
   id 'application'
   id 'org.openjfx.javafxplugin' version '0.1.0'
+  id 'com.gradleup.shadow' version '9.3.0'
 }
 
 group = 'umd.cis296'
@@ -13,7 +14,16 @@ application {
 
 javafx {
     version = "25"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
+}
+
+shadowJar {
+  mergeServiceFiles() 
+    manifest {
+        attributes(
+          'Main-Class': application.mainClass
+        )
+    }
 }
 
 jar {
@@ -28,9 +38,30 @@ repositories {
     mavenCentral()
 }
 
+private static def getJavaFxPlatform() {
+    def os = System.getProperty('os.name').toLowerCase(Locale.ENGLISH)
+    if (os.contains('win')) {
+        return 'win'
+    }
+    if (os.contains('nix') || os.contains('nux')) {
+        return 'linux'
+    }
+    if (os.contains('osx') || os.contains('mac')) {
+        return 'mac'
+    }
+    assert false: "unknown os: $os"
+}
+
+def jfxPlatform = getJavaFxPlatform()
+
 dependencies {
     implementation project(':shared')
-    implementation "org.openjfx:javafx-controls:21.0.2:mac-aarch64"
+    implementation "org.openjfx:javafx-base:25:${jfxPlatform}"
+    implementation "org.openjfx:javafx-graphics:25:${jfxPlatform}"
+    implementation "org.openjfx:javafx-controls:25:${jfxPlatform}"
+    implementation "org.openjfx:javafx-media:25:${jfxPlatform}"
+    implementation "org.openjfx:javafx-fxml:25:${jfxPlatform}"
+    implementation "org.openjfx:javafx-web:25:${jfxPlatform}"
 }
 
 

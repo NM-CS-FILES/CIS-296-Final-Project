@@ -36,7 +36,6 @@ public class Listener {
         INSTANCE.scheduler = Executors.newSingleThreadScheduledExecutor();
         INSTANCE.scheduler.scheduleAtFixedRate(() -> {
             try {
-                // possible nio
                 SocketChannel clientChannel = INSTANCE.socket.accept();
                 
                 if (clientChannel != null) {
@@ -44,7 +43,6 @@ public class Listener {
                     Logger.info("Got Client `{}`", client.getInetAddress());
                     Factory.addMachine(new Machine(client));
                 }
-
             } 
             catch (SocketTimeoutException e) {}
             catch (Exception ex) {

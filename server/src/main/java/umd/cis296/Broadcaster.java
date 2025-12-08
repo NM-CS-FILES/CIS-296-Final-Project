@@ -60,7 +60,6 @@ public class Broadcaster {
         INSTANCE.socket = new DatagramSocket();
         INSTANCE.socket.setBroadcast(true);
 
-        // move to this class...
         INSTANCE.scheduler = Executors.newSingleThreadScheduledExecutor();
         INSTANCE.scheduler.scheduleAtFixedRate(() -> {
             try {
@@ -73,14 +72,6 @@ public class Broadcaster {
     }
 
     public static Broadcaster instance() {
-        if (INSTANCE == null) {
-            try {
-                createBroadcaster();
-            } catch(Exception ex) {
-                Logger.error("Unable To Start Broadcaster");
-            }
-        }
-
         return INSTANCE;
     }
 }
