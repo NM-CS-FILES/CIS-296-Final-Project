@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     implementation project(':shared')
-    implementation "org.openjfx:javafx-controls:21.0.2:mac-aarch64"
 }
 
 
