@@ -7,7 +7,8 @@ import umd.cis296.states.InitialState;
 import umd.cis296.events.ConnectedEvent;
 import umd.cis296.events.MessageRecieveEvent;
 
-public class Machine implements Runnable {
+public class Machine implements Runnable
+{
 
   private Context context;
   private State state;
@@ -31,4 +32,6 @@ public class Machine implements Runnable {
       this.state = this.state.handle(new MessageRecieveEvent(message), this.context);
     }
   }
+
+
 }

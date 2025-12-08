@@ -1,16 +1,28 @@
 package umd.cis296;
 
-import umd.cis296.Database.Database;
-import umd.cis296.Database.Table;
-import umd.cis296.objects.Channel;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
-public class Server {
+public class Server
+{
 
-  public static void main(String[] args) throws Exception {
-    Table<Channel> channelTable = Database.getTable("Channels", Channel.class);
+    public static final int PORT = 5050;
 
-    Channel ch = new Channel(100, "New Name", Channel.Type.TEXT);
+    public static void main(String[] args) {
+        System.out.println("Starting server...");
 
-    channelTable.delete(ch);
-  }
+        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+            System.out.println("Server started on port " + PORT);
+            System.out.println("Waiting for clients...");
+
+            while (true) {
+                Socket client = serverSocket.accept();
+                System.out.println("Client connected: " + client.getInetAddress());
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
