@@ -11,13 +11,23 @@ application {
 }
 
 jar {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
   manifest {
     attributes(
       'Main-Class': application.mainClass
     )
   }
+
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
 }
 
 dependencies {
   implementation project(':shared')
+  implementation 'org.xerial:sqlite-jdbc:3.44.1.0'
+  implementation 'org.tinylog:tinylog-api:2.7.0'
+  implementation 'org.tinylog:tinylog-impl:2.7.0'
+  implementation 'org.yaml:snakeyaml:2.0' 
 }

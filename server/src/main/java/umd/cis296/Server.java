@@ -1,8 +1,16 @@
 package umd.cis296;
 
-public class Server {
-  public static void main(String[] args) {
+import umd.cis296.Database.Database;
+import umd.cis296.Database.Table;
+import umd.cis296.objects.Channel;
 
-    System.out.println("Hello, Server!");
+public class Server {
+
+  public static void main(String[] args) throws Exception {
+    Table<Channel> channelTable = Database.getTable("Channels", Channel.class);
+
+    Channel ch = new Channel(100, "New Name", Channel.Type.TEXT);
+
+    channelTable.delete(ch);
   }
 }
