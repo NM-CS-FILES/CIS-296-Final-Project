@@ -3,26 +3,26 @@ package umd.cis296;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import umd.cis296.Database.Database;
+import umd.cis296.Database.Table;
+import umd.cis296.objects.Channel;
 
 public class Server
 {
+    // "force" load classes so static blocks run
+    private static void startup() {
+      Broadcaster.instance();
+      Listener.instance();
+      Factory.instance();
+      Database.instance();
+    }
 
-    public static final int PORT = 5050;
+    public static void main(String[] args) throws Exception {
+      startup();
 
-    public static void main(String[] args) {
-        System.out.println("Starting server...");
-
-        try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-            System.out.println("Server started on port " + PORT);
-            System.out.println("Waiting for clients...");
-
-            while (true) {
-                Socket client = serverSocket.accept();
-                System.out.println("Client connected: " + client.getInetAddress());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+      while (true);
     }
 }

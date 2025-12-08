@@ -9,7 +9,6 @@ import umd.cis296.events.MessageRecieveEvent;
 
 public class Machine implements Runnable
 {
-
   private Context context;
   private State state;
 

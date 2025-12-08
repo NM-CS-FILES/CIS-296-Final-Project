@@ -92,6 +92,8 @@ public class Configuration implements Serializable{
     //
 
     public String name;
+    public int port;
+    public int threads;
 
     public Configuration() {
         this("A CIS-296 Final Project Server");
