@@ -1,30 +1,48 @@
 plugins {
-  id 'java'
-  id 'application'
+    id 'application'
+    id 'java'
 }
 
 group = 'umd.cis296'
 version = '1.0.0'
 
-application {
-  mainClass = 'umd.cis296.Client'
-}
-
-jar {
-  manifest {
-    attributes(
-      'Main-Class': application.mainClass
-    )
-  }
-}
-
 repositories {
     mavenCentral()
 }
 
+// Detect OS for JavaFX
+def os = org.gradle.internal.os.OperatingSystem.current()
+
 dependencies {
     implementation project(':shared')
-    implementation "org.openjfx:javafx-controls:21.0.2:mac-aarch64"
+
+    if (os.isWindows()) {
+        implementation "org.openjfx:javafx-controls:21.0.2:win"
+        implementation "org.openjfx:javafx-graphics:21.0.2:win"
+        implementation "org.openjfx:javafx-base:21.0.2:win"
+        implementation "org.openjfx:javafx-fxml:21.0.2:win"
+
+    } else if (os.isLinux()) {
+        implementation "org.openjfx:javafx-controls:21.0.2:linux"
+        implementation "org.openjfx:javafx-graphics:21.0.2:linux"
+        implementation "org.openjfx:javafx-base:21.0.2:linux"
+        implementation "org.openjfx:javafx-fxml:21.0.2:linux"
+
+    } else if (os.isMacOsX()) {
+        implementation "org.openjfx:javafx-controls:21.0.2:mac-aarch64"
+        implementation "org.openjfx:javafx-graphics:21.0.2:mac-aarch64"
+        implementation "org.openjfx:javafx-base:21.0.2:mac-aarch64"
+        implementation "org.openjfx:javafx-fxml:21.0.2:mac-aarch64"
+    }
 }
 
+application {
+    mainClass = 'umd.cis296.DiscordUI'
+}
 
+run {
+    jvmArgs = [
+            '--module-path', configurations.runtimeClasspath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml'
+    ]
+}
