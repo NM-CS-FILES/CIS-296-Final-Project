@@ -1,85 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.geometry.Pos?>
 
-<HBox xmlns="http://javafx.com/javafx/17"
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="umd.cis296.ClientGUI"
-      prefWidth="1280" prefHeight="720"
-      spacing="10"
       stylesheets="@style.css">
 
-    <StackPane prefWidth="640" prefHeight="720" style="-fx-background-color: #a3a9f0;">
-        <VBox spacing="20" alignment="TOP_CENTER" prefWidth="640" prefHeight="720">
-
-            <Button fx:id="server1Button"
-                    text="Server 1"
-                    styleClass="server-button"
-                    onAction="#switchToServer"
-                    prefWidth="300" prefHeight="140"
-                    alignment="CENTER_LEFT"
-                    graphicTextGap="10">
-                <graphic>
-                    <ImageView fitWidth="128" fitHeight="128" preserveRatio="true">
-                        <image>
-                            <Image url="@Default_Profile_Picture.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
-
-            <Button fx:id="server2Button"
-                    text="Server 2"
-                    styleClass="server-button"
-                    onAction="#switchToServer"
-                    prefWidth="300" prefHeight="140"
-                    alignment="CENTER_LEFT"
-                    graphicTextGap="10">
-                <graphic>
-                    <ImageView fitWidth="128" fitHeight="128" preserveRatio="true">
-                        <image>
-                            <Image url="@Default_Profile_Picture.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
+    <!-- Server List -->
+    <left>
+        <VBox prefWidth="200">
         </VBox>
-    </StackPane>
+    </left>
 
-    <StackPane prefWidth="640" prefHeight="720">
-        <VBox alignment="BOTTOM_CENTER" prefHeight="9999" prefWidth="640">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
+    <!-- Messaging -->
+    <center>
+        <VBox spacing="10">
+            <!-- Message Logs -->
+            <VBox fx:id="textContainer" />
 
-            <StackPane prefWidth="360" prefHeight="50"
-                       style="-fx-background-color: #ffffff;
-                              -fx-background-radius: 25;">
-                <HBox spacing="10" alignment="CENTER_LEFT" padding="0 10 0 10">
+            <!-- Separator -->
+            <Region VBox.vgrow="ALWAYS" />
 
-                    <Button fx:id="circleButton"
-                            prefWidth="40" prefHeight="40"
-                            style="-fx-background-color: #5865F2;
-                                   -fx-background-radius: 20;
-                                   -fx-border-width: 0;" />
-
-                    <TextField fx:id="rightInputField"
-                               promptText="Enter text..."
-                               prefWidth="280"
-                               prefHeight="40"
-                               style="-fx-font-size: 16px; -fx-background-color: transparent; -fx-border-width: 0;" />
-
-                </HBox>
-            </StackPane>
+            <!-- Search Bar -->
+            <HBox fx:id="searchBar" />
 
         </VBox>
-    </StackPane>
+    </center>
 
-</HBox>
+</BorderPane>

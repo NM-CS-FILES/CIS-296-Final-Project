@@ -11,20 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ClientGUI extends Application {
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(ClientGUI.class.getResource("/Layout.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Chad Application");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class ClientGUI{
 
     private Stage getStage(ActionEvent event) {
         return (Stage) ((Node) event.getSource()).getScene().getWindow();
