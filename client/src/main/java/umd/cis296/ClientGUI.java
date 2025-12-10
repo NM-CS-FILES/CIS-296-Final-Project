@@ -7,11 +7,35 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientGUI{
+
+    List<String> messages = new ArrayList<>();
+
+    @FXML
+    private TextField textField;
+
+    @FXML
+    public void initialize() {
+        if (textField == null) {
+            System.out.println("textField is NULL! Injection failed.");
+        } else {
+            System.out.println("textField injected successfully: " + textField);
+            textField.setOnAction(event -> {
+                String text = textField.getText();
+                messages.add(text);
+                messages.forEach(System.out::println);
+                textField.clear();
+            });
+        }
+    }
+
 
     private Stage getStage(ActionEvent event) {
         return (Stage) ((Node) event.getSource()).getScene().getWindow();
