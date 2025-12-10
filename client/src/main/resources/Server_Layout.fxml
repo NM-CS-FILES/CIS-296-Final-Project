@@ -7,31 +7,60 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.geometry.Pos?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="umd.cis296.ClientGUI"
-      stylesheets="@style.css">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="umd.cis296.ClientGUI"
+            stylesheets="@style.css"
+            prefWidth="1280"
+            prefHeight="720">
 
-    <!-- Server List -->
     <left>
-        <VBox prefWidth="200">
+        <VBox prefWidth="200" spacing="10" style="-fx-background-color: lightgray; -fx-padding: 20;">
+        <Button fx:id="server1Button"
+                    text="Server 1"
+                    styleClass="server-button"
+                    onAction="#switchToServer"
+                    prefWidth="150" prefHeight="42"
+                    alignment="CENTER_LEFT"
+                    graphicTextGap="10">
+                <graphic>
+                    <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                        <image>
+                            <Image url="@Default_Profile_Picture.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
+            <Button fx:id="server2Button"
+                    text="Server 2"
+                    styleClass="server-button"
+                    onAction="#switchToServer"
+                    prefWidth="150" prefHeight="42"
+                    alignment="CENTER_LEFT"
+                    graphicTextGap="10">
+                <graphic>
+                    <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
+                        <image>
+                            <Image url="@Default_Profile_Picture.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
         </VBox>
     </left>
 
-    <!-- Messaging -->
     <center>
         <VBox spacing="10">
-            <!-- Message Logs -->
             <VBox fx:id="textContainer" />
-
-            <!-- Separator -->
             <Region VBox.vgrow="ALWAYS" />
-
-            <!-- Search Bar -->
             <HBox fx:id="searchBar" />
-
         </VBox>
     </center>
 
