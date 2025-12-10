@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import org.tinylog.Logger;
 import org.yaml.snakeyaml.DumperOptions;
@@ -94,6 +97,7 @@ public class Configuration implements Serializable{
     public String name;
     public int port;
     public int threads;
+    public List<String> channels;
 
     public Configuration() {
         this("A CIS-296 Final Project Server");
@@ -101,5 +105,10 @@ public class Configuration implements Serializable{
 
     public Configuration(String name) {
         this.name = name;
+        this.port = 5005;
+        this.threads = 10;
+        this.channels = new ArrayList<>() {{
+            add("main");
+        }};
     }
 }

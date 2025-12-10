@@ -1,3 +1,4 @@
 name: A CIS-296 Final Project Server
-port: 0
-threads: 0
+port: 5005
+threads: 10
+channels: [ "main", "second" ]

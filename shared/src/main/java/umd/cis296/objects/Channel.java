@@ -1,28 +1,27 @@
 package umd.cis296.objects;
 
 public class Channel extends Idable {
-
-    public enum Type {
-        TEXT
-    }
-
-    //
-    //
-
     private String name;
-    private int type;
 
-    public Channel(int id, String name, Type type) {
-        super(id);
+    public Channel(String name) {
         this.name = name;
-        this.type = type.ordinal();
     }
 
     public String getName() {
         return this.name;
     }
 
-    public Type getType() {
-        return Type.values()[this.type];
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

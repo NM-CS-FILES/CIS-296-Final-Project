@@ -47,7 +47,7 @@ public class Broadcaster {
 
         byte[] bytes = byteOut.toByteArray();
 
-        INSTANCE.message = new DatagramPacket(bytes, bytes.length, InetAddress.getByName("255.255.255.255"), beacon.port);
+        INSTANCE.message = new DatagramPacket(bytes, bytes.length, InetAddress.getByName("255.255.255.255"), beacon.getPort());
     }
 
     private static void createBroadcaster() throws IOException {
@@ -66,6 +66,7 @@ public class Broadcaster {
                 INSTANCE.socket.send(INSTANCE.message);
                 Logger.info("Broadcasted Beacon");
             } catch (IOException e) {
+                Logger.warn(e);
                 Logger.warn("Broadcasting Failed");
             }
         }, 0, 3, TimeUnit.SECONDS);
