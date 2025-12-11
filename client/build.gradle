@@ -37,7 +37,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'umd.cis296.DiscordUI'
+    mainClass = 'umd.cis296.ClientGUI'
 }
 
 run {
