@@ -5,6 +5,6 @@ build/
 .classpath
 .project
 
-/.gradle
-/.vscode
-/.idea
+.gradle/
+.vscode/
+.idea/
