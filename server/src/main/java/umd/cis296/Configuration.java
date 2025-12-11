@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.tinylog.Logger;
 import org.yaml.snakeyaml.DumperOptions;
@@ -81,7 +80,7 @@ public class Configuration implements Serializable{
         }
     }
 
-    public static Configuration instance() {
+    public synchronized static Configuration instance() {
         if (INSTANCE == null) {
             if ((INSTANCE = readConfig(FILE_PATH)) == null) {
                 Logger.error("Unable To Read Config");
@@ -96,7 +95,6 @@ public class Configuration implements Serializable{
 
     public String name;
     public int port;
-    public int threads;
     public List<String> channels;
 
     public Configuration() {
@@ -106,7 +104,6 @@ public class Configuration implements Serializable{
     public Configuration(String name) {
         this.name = name;
         this.port = 5005;
-        this.threads = 10;
         this.channels = new ArrayList<>() {{
             add("main");
         }};

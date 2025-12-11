@@ -1,4 +1,3 @@
 name: A CIS-296 Final Project Server
 port: 5005
-threads: 10
 channels: [ "main", "second" ]

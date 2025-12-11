@@ -1,6 +1,5 @@
 package umd.cis296;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import umd.cis296.objects.User;
 public class Connection implements Runnable {
     private MessageSocket socket;
     private User user;
-    private boolean flag = true;
+    private volatile boolean flag = true;
     
     public boolean getFlag() {
         return flag;
@@ -91,9 +90,12 @@ public class Connection implements Runnable {
     }
 
     public static Connection fromSocket(MessageSocket socket) {
+        Logger.info("Waiting For I-AM");
+
         IAmMessage iam = socket.waitFor(IAmMessage.class, 3000);
 
         if (iam == null) {
+            Logger.warn("Did Not Recieve I-AM");
             socket.close();
             return null;
         }

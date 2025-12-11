@@ -12,8 +12,12 @@ import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -58,11 +62,26 @@ public class IntroController implements Initializable {
                     // ew
                     beacon.setAddress(from.getAddress());
 
-                    if (!beaconList.contains(beacon)) {
+                    int dupIndex = 0;
+                    for (; dupIndex != beaconList.size(); dupIndex++) {
+                        BeaconMessage potentialDup = beaconList.get(dupIndex);
+
+                        if (potentialDup.getAddress().equals(beacon.getAddress()) 
+                            && potentialDup.getName().equals(beacon.getName())) 
+                        {
+                            break;    
+                        }
+                    }
+
+                    if (dupIndex < beaconList.size()) {
+                        beaconList.set(dupIndex, beacon);
+                    } else {
                         beaconList.add(beacon);
                     }
                 }
             }
+
+            messageBuffer.clear(); // holy crap
         } catch (Exception ex) { 
             System.out.println(ex.getMessage());            
         }
@@ -94,6 +113,7 @@ public class IntroController implements Initializable {
                 throw new Exception();
             }
 
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(ClientApplication.MAIN_FXML_PATH));
             Parent root = loader.load();
             
@@ -101,6 +121,8 @@ public class IntroController implements Initializable {
             mainController.setName(username);
             mainController.initializeSocket(socket);
             
+            scheduler.stop();
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setTitle("CIS-296 Final Project");
             stage.setScene(new Scene(root));
@@ -119,6 +141,9 @@ public class IntroController implements Initializable {
         } catch (IOException e) { }
         
         messageBuffer = ByteBuffer.allocate(0xFFFF);
+
+        // serverNameColumn.setCellValueFactory(cell -> new ReadOnlyStringWrapper(cell.getValue().getName()));
+        // serverUsersColumn.setCellValueFactory(cell -> new ReadOnlyObjectWrapper<>(cell.getValue().getUsers()));
 
         serverNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         serverUsersColumn.setCellValueFactory(new PropertyValueFactory<>("users"));

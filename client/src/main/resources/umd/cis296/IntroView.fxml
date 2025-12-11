@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umd.cis296.controllers.IntroController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="420.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="umd.cis296.controllers.IntroController">
    <children>
-      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="CIS-296 Final Project" textAlignment="CENTER">
+      <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Network Chat" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>

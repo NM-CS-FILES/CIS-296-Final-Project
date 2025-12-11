@@ -5,18 +5,29 @@ subprojects {
 
   group = 'umd.cis296'
   version = '1.0.0'
-  
-  tasks.register('copyJar', Copy) {
-    dependsOn tasks.named('jar')
-    from(tasks.named('jar').flatMap { it.archiveFile })
-    into("${rootProject.projectDir}/bin")
-  }
-
-  tasks.named('build') {
-    dependsOn 'copyJar'
-  }
 
   repositories {
     mavenCentral()
+  }
+}
+
+task buildAll {
+  dependsOn ':server:jar', ':client:shadowJar'
+
+  doLast {
+    def binDir = file("${rootDir}/bin")
+    binDir.mkdirs()
+
+    copy {
+      from project(':server').tasks.jar.archiveFile
+      into binDir
+      rename { 'server.jar' }
+    }
+
+    copy {
+      from project(':client').tasks.shadowJar.archiveFile
+      into binDir
+      rename { 'client.jar' }
+    }
   }
 }

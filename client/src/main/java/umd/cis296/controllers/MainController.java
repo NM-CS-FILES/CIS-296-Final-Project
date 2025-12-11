@@ -10,13 +10,19 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+import umd.cis296.ClientApplication;
 import umd.cis296.Message;
 import umd.cis296.MessageSocket;
 import umd.cis296.message.ChannelListMessage;
@@ -66,7 +72,9 @@ public class MainController implements Initializable {
             socket.send(new IAmMessage(name));
             socket.send(new RequestChannelListMessage());
             socket.send(new RequestUserListMessage());
-        } catch (Exception ex) { }
+        } catch (Exception ex) { 
+            ex.printStackTrace();
+        }
     }
 
     @Override
@@ -91,9 +99,7 @@ public class MainController implements Initializable {
     }
 
     private void sendTextMessage() {
-        try {
-            socket.send(new TextMessage(selectedChannel(), new User(this.name, null), messageTextField.getText()));
-        } catch (IOException e) { }
+        socket.send(new TextMessage(selectedChannel(), new User(this.name, null), messageTextField.getText()));
         messageTextField.clear();
     }
 
@@ -135,6 +141,22 @@ public class MainController implements Initializable {
             case UserLeaveMessage message   -> handleUserLeave(message);
             case TextMessage message        -> handleTextMessage(message);
             default -> { }
+        }
+    }
+
+    //
+    //
+
+    @FXML
+    private void onExitServerPressed(ActionEvent event) {
+        socket.close();
+        
+        try {
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(FXMLLoader.load(getClass().getResource(ClientApplication.INTRO_FXML_PATH))));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

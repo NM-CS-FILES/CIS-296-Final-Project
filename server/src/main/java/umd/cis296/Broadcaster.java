@@ -17,27 +17,32 @@ import umd.cis296.message.BeaconMessage;
 public class Broadcaster {
     
     private DatagramSocket socket;
-    private DatagramPacket message;
+    private DatagramPacket packet;
+    private BeaconMessage beacon;
     private ScheduledExecutorService scheduler;
 
     private static Broadcaster INSTANCE;
 
     static {
+        INSTANCE = new Broadcaster();
+        
         try {
-            createBroadcaster();
-        } catch (IOException e) {
+            INSTANCE.initializeSocket();
+        } catch (Exception e) {
             e.printStackTrace();
         }   
     }
 
-    private static void createMessage() throws IOException {
-        Logger.info("Creating Message");
+    private byte[] getPacketBytes() throws Exception {
+        if (beacon == null) {
+            beacon = new BeaconMessage(
+                Configuration.instance().port, 
+                0,
+                Configuration.instance().name
+            );
+        }
 
-        BeaconMessage beacon = new BeaconMessage(
-            Configuration.instance().port,
-            0,
-            Configuration.instance().name
-        );
+        beacon.setUsers(Handler.instance().getUsers().size());
 
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
         ObjectOutputStream objOut = new ObjectOutputStream(byteOut);
@@ -45,27 +50,38 @@ public class Broadcaster {
         objOut.writeObject(beacon);
         objOut.flush();
 
-        byte[] bytes = byteOut.toByteArray();
-
-        INSTANCE.message = new DatagramPacket(bytes, bytes.length, InetAddress.getByName("255.255.255.255"), beacon.getPort());
+        return byteOut.toByteArray();
     }
 
-    private static void createBroadcaster() throws IOException {
-        INSTANCE = new Broadcaster();
-        
-        createMessage();
+    private DatagramPacket getPacket() throws Exception {
+        byte[] packetData = getPacketBytes();
 
+        if (packet == null) {
+            packet = new DatagramPacket(
+                packetData, 
+                packetData.length, 
+                InetAddress.ofLiteral("255.255.255.255"), 
+                Configuration.instance().port
+            );
+        } else {
+            packet.setData(packetData);
+        }
+
+        return packet;
+    }
+
+    private void initializeSocket() throws IOException {
         Logger.info("Creating Broadcaster");
 
-        INSTANCE.socket = new DatagramSocket();
-        INSTANCE.socket.setBroadcast(true);
+        socket = new DatagramSocket();
+        socket.setBroadcast(true);
 
-        INSTANCE.scheduler = Executors.newSingleThreadScheduledExecutor();
-        INSTANCE.scheduler.scheduleAtFixedRate(() -> {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(() -> {
             try {
-                INSTANCE.socket.send(INSTANCE.message);
+                socket.send(getPacket());
                 Logger.info("Broadcasted Beacon");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 Logger.warn(e);
                 Logger.warn("Broadcasting Failed");
             }

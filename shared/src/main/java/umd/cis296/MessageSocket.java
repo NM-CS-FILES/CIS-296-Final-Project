@@ -44,7 +44,7 @@ public class MessageSocket {
     this.buffer = new MessageBuffer();
     this.readThread = new Thread(() -> {
       try {
-        while (!socket.isClosed()) {
+        while (true) { // im crine 
           Object object = this.input.readObject();
 
           if (!(object instanceof Message)) {
@@ -53,15 +53,20 @@ public class MessageSocket {
 
           buffer.push((Message) object);
         }
-      } catch (Exception ex) {
-      }
+      } catch (Exception ex) { }
     });
+    this.readThread.setDaemon(true);
     this.readThread.start();
   }
 
-  public synchronized void send(Message message) throws IOException {
-    this.output.writeObject(message);
-    this.output.flush();
+  public synchronized boolean send(Message message) {
+    try {
+      this.output.writeObject(message);
+      this.output.flush();
+      return true;
+    } catch (Exception ex) {
+      return false;
+    }
   }
 
   public synchronized Message read() {
@@ -70,10 +75,6 @@ public class MessageSocket {
 
   public synchronized int waitingMessageCount() {
     return this.buffer.size();
-  }
-
-  public synchronized boolean isClosed() {
-    return this.socket.isClosed();
   }
 
   public synchronized InetAddress getAddress() {
@@ -97,9 +98,10 @@ public class MessageSocket {
 
   public synchronized void close() {
     try {
-      // fuh it we trine
       this.socket.close();
-    } catch (IOException e) { }
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   //
