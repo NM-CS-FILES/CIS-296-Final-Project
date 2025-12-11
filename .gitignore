@@ -6,6 +6,5 @@ build/
 .project
 
 /.gradle
-
-.vscode
-.idea
+/.vscode
+/.idea
