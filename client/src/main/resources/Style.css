@@ -8,3 +8,15 @@
 .server-button:hover {
     -fx-background-color: #7289DA;
 }
+
+.leave-button {
+    -fx-background-color: #f54242;
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-font-size: 16px;
+}
+
+.leave-button:hover {
+    -fx-background-color: #f56262;
+}
+
